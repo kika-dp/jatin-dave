@@ -121,8 +121,8 @@ export default function Leadership() {
                 {SATELLITE_NODES.map((node, i) => {
                   const rad = (node.angle * Math.PI) / 180;
                   const r = 110;
-                  const x = Math.cos(rad) * r;
-                  const y = Math.sin(rad) * r;
+                  const x = (Math.cos(rad) * r).toFixed(3);
+                  const y = (Math.sin(rad) * r).toFixed(3);
                   return (
                     <motion.line
                       key={i}
@@ -163,8 +163,8 @@ export default function Leadership() {
               {SATELLITE_NODES.map((node, i) => {
                 const rad = (node.angle * Math.PI) / 180;
                 const r = 110;
-                const x = Math.cos(rad) * r;
-                const y = Math.sin(rad) * r;
+                const x = (Math.cos(rad) * r).toFixed(3);
+                const y = (Math.sin(rad) * r).toFixed(3);
                 const c = COLOR_MAP[node.color as keyof typeof COLOR_MAP];
                 return (
                   <motion.div

@@ -97,7 +97,7 @@ export default function About() {
               <div className="absolute -inset-[2px] rounded-3xl gradient-border" />
 
               {/* Photo */}
-              <div className="relative w-[240px] h-[320px] lg:w-full lg:h-auto lg:aspect-[3/4] rounded-3xl overflow-hidden">
+              <div className="relative w-[240px] h-[320px] lg:w-full lg:h-[373px] rounded-3xl overflow-hidden">
                 <ProfileImage
                   fill
                   className="object-cover object-top"

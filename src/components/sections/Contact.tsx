@@ -113,11 +113,15 @@ export default function Contact() {
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [isProcessing, setIsProcessing] = useState(false);
-  const endRef = useRef<HTMLDivElement>(null);
+  const terminalBodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = useCallback(() => {
-    setTimeout(() => endRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
+    setTimeout(() => {
+      if (terminalBodyRef.current) {
+        terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
+      }
+    }, 50);
   }, []);
 
   useEffect(() => {
@@ -299,6 +303,7 @@ export default function Contact() {
 
           {/* Terminal body */}
           <div
+            ref={terminalBodyRef}
             className="h-[420px] overflow-y-auto p-4 sm:p-5 space-y-0.5 font-mono text-sm leading-relaxed"
             style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(16,185,129,0.2) transparent" }}
           >
@@ -343,7 +348,7 @@ export default function Contact() {
               </motion.div>
             )}
 
-            <div ref={endRef} />
+
           </div>
 
           {/* Input row */}

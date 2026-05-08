@@ -38,7 +38,7 @@ export default function ProfileImage({
   if (fill) {
     return (
       <Image
-        src="/profile.jpg"
+        src="/profile-new.jpg"
         alt="Jatin Dave"
         fill
         className={className}
@@ -51,7 +51,7 @@ export default function ProfileImage({
 
   return (
     <Image
-      src="/profile.jpg"
+      src="/profile-new.jpg"
       alt="Jatin Dave"
       width={width ?? 96}
       height={height ?? 96}
