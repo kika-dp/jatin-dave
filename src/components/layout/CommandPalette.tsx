@@ -89,11 +89,11 @@ export default function CommandPalette({ open, onClose }: CommandPaletteProps) {
     {
       id: "action-email",
       label: "Send an Email",
-      description: "contact@example.com",
+      description: "jatindave369@gmail.com",
       icon: Mail,
       group: "Actions",
       action: () => {
-        window.open("mailto:contact@example.com");
+        window.open("mailto:jatindave369@gmail.com");
         onClose();
       },
       keywords: ["mail", "reach"],
@@ -105,7 +105,12 @@ export default function CommandPalette({ open, onClose }: CommandPaletteProps) {
       icon: FileText,
       group: "Actions",
       action: () => {
-        window.open("/resume.pdf", "_blank");
+        const link = document.createElement("a");
+        link.href = "/resume.pdf";
+        link.download = "Jatin_Dave_Resume.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
         onClose();
       },
       keywords: ["cv", "download"],

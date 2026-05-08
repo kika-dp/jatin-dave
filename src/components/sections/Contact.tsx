@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Terminal, Circle, Minus, Square } from "lucide-react";
 
 interface TerminalLine {
-  id: number;
+  id: string | number;
   type: "input" | "output" | "error" | "success" | "system" | "easter";
   content: string;
 }
@@ -46,13 +46,13 @@ const COMMANDS: Record<
   email: {
     type: "success",
     lines: [
-      "  📧  contact@example.com",
+      "  📧  jatindave369@gmail.com",
       "  ↳   Click to open your mail client",
     ],
   },
   phone: {
     type: "success",
-    lines: ["  📱  +91 00000 00000"],
+    lines: ["  📱  +91 9537274463"],
   },
   location: {
     type: "success",
@@ -105,7 +105,9 @@ const INITIAL_LINES: TerminalLine[] = [
   { id: 2, type: "system", content: "" },
 ];
 
-let idCounter = 10;
+const generateUniqueId = (): string => {
+  return `term-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+};
 
 export default function Contact() {
   const [lines, setLines] = useState<TerminalLine[]>(INITIAL_LINES);
@@ -136,12 +138,12 @@ export default function Contact() {
   );
 
   const execute = useCallback(
-    (raw: string) => {
+    (raw: string, isChipClick = false) => {
       const cmd = raw.trim().toLowerCase();
       if (!cmd) return;
 
       const inputLine: TerminalLine = {
-        id: idCounter++,
+        id: generateUniqueId(),
         type: "input",
         content: raw,
       };
@@ -153,7 +155,7 @@ export default function Contact() {
 
       if (cmd === "sudo hire-me" || cmd === "hire-me" || cmd === "hire") {
         const easterLines: TerminalLine[] = EASTER_LINES.map((l) => ({
-          id: idCounter++,
+          id: generateUniqueId(),
           type: "easter" as const,
           content: l,
         }));
@@ -166,12 +168,12 @@ export default function Contact() {
         addLines([
           inputLine,
           {
-            id: idCounter++,
+            id: generateUniqueId(),
             type: "error",
             content: `  command not found: ${cmd}`,
           },
           {
-            id: idCounter++,
+            id: generateUniqueId(),
             type: "error",
             content: "  Type 'help' to see available commands.",
           },
@@ -182,16 +184,23 @@ export default function Contact() {
       setIsProcessing(true);
       addLines([inputLine]);
 
+      // Trigger actual download synchronously ONLY if this is NOT a chip click
+      if (cmd === "resume" && !isChipClick) {
+        const link = document.createElement("a");
+        link.href = "/resume.pdf";
+        link.download = "Jatin_Dave_Resume.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
       setTimeout(() => {
-        if (cmd === "resume") {
-          window.open("/resume.pdf", "_blank");
-        }
         if (cmd === "email") {
-          setTimeout(() => window.open("mailto:contact@example.com"), 800);
+          setTimeout(() => window.open("mailto:jatindave369@gmail.com"), 800);
         }
 
         const outputLines: TerminalLine[] = command.lines.map((l) => ({
-          id: idCounter++,
+          id: generateUniqueId(),
           type: command.type,
           content: l,
         }));
@@ -388,9 +397,17 @@ export default function Contact() {
             <button
               key={chip.cmd}
               onClick={() => {
+                if (chip.cmd === "resume") {
+                  const link = document.createElement("a");
+                  link.href = "/resume.pdf";
+                  link.download = "Jatin_Dave_Resume.pdf";
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }
                 setInput(chip.cmd);
                 setTimeout(() => {
-                  execute(chip.cmd);
+                  execute(chip.cmd, true);
                   setInput("");
                 }, 50);
               }}
